@@ -4,28 +4,34 @@ const router = express.Router();
 const Room = require('../../models/roomMod');
 const Hotel = require('../../models/hotelsMod');
 
-// get a list of rooms from db
-router.get('/rooms', (req, res, next) => {
-    Room.find({hotel: req.body.hotel})
-    .then( rooms => res.send(room) );
-});
+// get all rooms from DB
+router.get('/getallrooms', async (req, res) => {
+    try {
+        const allrooms = await Room.find(); 
+        res.status(200).json(allrooms);
+       } catch (error) {
+        res.send({error: err.message})
+    }
+})
 
-// add a new room to db
-router.post('/rooms', (req, res, next) => {
+// get all rooms of an Hotel
+router.get('/getallroomsbyhotel/:hotel', (req, res, next) => {
+    Room.find({hotel: req.params.hotel}, req.body)
+        .then( room => {
+            res.send(room);
+        });
+})
+
+// add a new room in a hotel
+router.post('/addroom', (req, res, next) => {
     Room.create(req.body)
-    .then( room => {
-        Hotel.find({name : req.body.hotel})
-        .then (hotels => array.forEach(element => {
-           element.rooms.push('WORKS') 
-        }))
-    })
     .then( room => {
         res.send(room);
     }).catch(next);
 });
 
-//update a room in db
-router.put('/rooms/:id', (req, res, next) => {
+//update a room in DB
+router.put('/updateRooms/:id', (req, res, next) => {
     Room.findByIdAndUpdate({_id: req.params.id}, req.body)
     .then(() => {
         Room.findOne({_id: req.params.id})
@@ -35,8 +41,8 @@ router.put('/rooms/:id', (req, res, next) => {
     });
 });
 
-//delete a room form db
-router.delete('/rooms/:id', (req, res, next) => {
+//delete a room form DB
+router.delete('/deleteRooms/:id', (req, res, next) => {
     Room.findByIdAndRemove({_id: req.params.id})
     .then( room => {
         res.send(room);

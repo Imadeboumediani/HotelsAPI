@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const City = require('./citiesMod');
 
 // Schema d'un Booker
 const BookerSchema = new Schema({
@@ -39,9 +40,8 @@ const BookerSchema = new Schema({
   },
   // Ville
   city: {
-    type: String,
-    required: false,
-    default: ""
+    type:Schema.Types.ObjectId,
+    ref :'City'
   },
 
   // Numéro de téléphone
@@ -50,10 +50,7 @@ const BookerSchema = new Schema({
     required: true,
     default: ""
   },
-}, {collection: "Bookers"});  // Nom de la collection dans la BDD (laisser vide pour nouvelle collection)
+},);
+ const Booker = mongoose.model('Booker', BookerSchema);
 
-module.exports = Booker = mongoose.model(
-  "Bookers",          // Id modèle (si nouvelle collection, ce sera son nom)
-  BookerSchema,       // Nom du schema (ci dessus)
-  "Bookers"           // Nom de la collection dans la BDD (laisser vide pour nouvelle collection)
-);
+module.exports = Booker;

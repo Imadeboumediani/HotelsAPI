@@ -1,10 +1,13 @@
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Room = require('./roomModel');
-const Hotel = require('./hotelModel');
-const user = require('./userModel');
+
+const Room = require('./roomMod');
+const Hotel = require('./hotelsMod');
+const User = require('./usersMod');
+const Booker = require('./bookersMod');
+
+
 
 // create booking Schema and model
 const BookingSchema = new Schema({
@@ -16,6 +19,10 @@ const BookingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Room',
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
     checkin: {
         type: Date,
         required: [true, 'Checkin date est obligatoire'],
@@ -23,10 +30,6 @@ const BookingSchema = new Schema({
     checkout: {
         type: Date,
         required: [true, 'Checkout date est obligatoire']
-    },
-    amount: {
-        type: Number,
-        required: [true, 'Total amount est obligatoire']
     },
     guests: {
         type: Number,
@@ -47,6 +50,10 @@ const BookingSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    allbookers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Booker',
+    }],
 });
 
 const Booking = mongoose.model('Booking', BookingSchema);

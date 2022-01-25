@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const CitySchema = new Schema({
     name: {
         type: String,
+        required: [true, 'le nom est obligatoire']
     },
     lat: {
         type: Number,
@@ -14,4 +15,6 @@ const CitySchema = new Schema({
     
 });
 
-module.exports = City = mongoose.model("cities", CitySchema);
+const City = mongoose.model('City', CitySchema);
+
+module.exports = City;
