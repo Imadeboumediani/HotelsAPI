@@ -3,15 +3,14 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
-// Load input validation
+// Import de nos condition de validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
-// Load User model
+// Import du model
 const User = require("../../models/usersMod");
 
 
-// POST api/users/register
-// @access Public
+// S'enregistrer
 router.post("/register", (req, res) => {
     // Form validation
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -28,7 +27,7 @@ router.post("/register", (req, res) => {
           email: req.body.email,
           password: req.body.password
         });
-  // Hash password before saving in database
+  // Hashage du mot de passe
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
@@ -44,10 +43,7 @@ router.post("/register", (req, res) => {
   });
 
 
-
-
-//  POST api/users/login
-// @access Public
+//connexion
 router.post("/login", (req, res) => {
     // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
@@ -57,27 +53,27 @@ router.post("/login", (req, res) => {
     }
   const email = req.body.email;
     const password = req.body.password;
-  // Find user by email
+  // Trouver l'user grace au mail
     User.findOne({ email }).then(user => {
-      // Check if user exists
+      // verifier son existence
       if (!user) {
         return res.status(404).json({ emailnotfound: "Email not found" });
       }
-  // Check password
+  // Verification du password
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
-          // User matched
-          // Create JWT Payload
+          // User est validé
+          // Création de  JWT Payload
           const payload = {
             id: user.id,
             name: user.name
           };
-  // Sign token
+  // Signature du token
           jwt.sign(
             payload,
             keys.secretOrKey,
             {
-              expiresIn: 31556926 // 1 year in seconds
+              expiresIn: 31556926 // 1 année en secondes
             },
             (err, token) => {
               res.json({

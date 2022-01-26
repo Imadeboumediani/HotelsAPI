@@ -13,18 +13,17 @@ const booking = require("./routes/api/booking");
 
 const app = express();
 
-
-
-// Bodyparser middleware
+// utilisation du bodyparser middleware pour body
 app.use(
   bodyParser.urlencoded({
     extended: false
   })
 );
+
 app.use(bodyParser.json());
-// DB Config
+// config de notre BDD
 const db = require("./config/keys").mongoURI;
-// Connect to MongoDB
+// connexion à mongoDB
 mongoose
   .connect(
     db,
@@ -32,11 +31,11 @@ mongoose
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
-// Passport middleware
+// utilisation de Passport middleware
 app.use(passport.initialize());
-// Passport config
+// configuration du Passport 
 require("./config/passport")(passport);
-// Routes
+// tout nos Routes
 
 app.use("/api/users", users);
 app.use('/api',hotels );
@@ -46,6 +45,6 @@ app.use('/api',bookers );
 app.use('/api',booking );
 
 
-
+//connexion côté serveur
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));

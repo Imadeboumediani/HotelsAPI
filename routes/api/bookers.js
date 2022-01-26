@@ -7,6 +7,7 @@ const Booker = require('../../models/bookersMod');
 //get all bookers
 router.get('/getallbookers', (req, res,next) => {
     Booker.find()
+    //Affichage de city pendant la requete
     .populate('city') 
     .exec( (err, bookers) => {
         if(err) { res.send({error: err.message}) }
@@ -17,6 +18,7 @@ router.get('/getallbookers', (req, res,next) => {
 // get a Booker by Name
 router.get('/getBooker/:lastname', (req, res, next) => {
     Booker.findOne({lastname: req.params.lastname})
+    //Affichage de city pendant la requete
     .populate('city')
     .exec( (err, bookers) => {
         if(err) { res.send({error: err.message}) }

@@ -7,6 +7,7 @@ const Booking = require('../../models/bookingMod');
 //get all booking
 router.get('/getallbooking', (req, res,next) => {
     Booking.find()
+    //Affichage de notre user booker hotel et room pendant la requete
     .populate('user')
     .populate('allbookers')
     .populate('hotel')
@@ -20,6 +21,7 @@ router.get('/getallbooking', (req, res,next) => {
 // get a Booking by Name
 router.get('/getBooking/:id', (req, res, next) => {
     Booking.findOne({_id: req.params.id})
+    //Affichage de notre user booker hotel et room pendant la requete
     .populate('user')
     .populate('allbookers')
     .populate('hotel')

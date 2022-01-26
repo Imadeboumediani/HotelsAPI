@@ -36,7 +36,7 @@ router.post('/sethotel', (req, res, next) => {
     }).catch(next);
 });
 
-//update a hotel in db
+//update a hotel in DB
 router.put('/updatehotel/:id', (req, res, next) => {
     Hotel.findByIdAndUpdate({_id: req.params.id}, req.body)
     .then(() => {
