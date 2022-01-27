@@ -1,5 +1,7 @@
 # HotelsAPI
 # Project: Hotels Api
+#For detailed documentation  <strong> 🔗  https://documenter.getpostman.com/view/18012002/UVeAuUAD </strong
+
 # 📁 Collection: Room 
 
 
